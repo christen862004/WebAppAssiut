@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "ShowAll";
+}
+
+<h1>ShowAll</h1>
+
+  <!--Data Come From Backend List<student>-->
+    <table class="table table-border table-hover">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Image</th>
+        </tr>
+        @foreach (Student item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.ImageUrl</td>
+                <td>
+                <img src="/Images/@item.ImageUrl" style="width:100px" />
+                </td>
+            </tr>
+        }
+
+    </table>

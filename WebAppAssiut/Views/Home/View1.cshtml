@@ -1,0 +1,41 @@
+﻿<h1> My First View</h1>
+<!--Razor Enging (Razor Synatox)-->
+<!--Block of Code-->
+@{
+    int x = 10;
+    int y = x+10;
+    <p>hiiiiiiiiiiii</p>
+}
+<!--inline Code one line return value html-->
+@(x+y)
+<br />           
+@y
+<!--Condition Statment (if ,switch)-->
+@if (x > y){
+    <h2>X Greater Than Y</h2>
+}else
+{
+    <h2>X =@x Less Than Y=@y</h2>
+}
+<!--Iteration (looping statment) for ,whle ,dod while ,foreach..-->
+
+<select class="form form-control">
+    @for (int i = 0; i < x; i++)
+    {
+        <option>@i</option>
+    }
+</select>
+
+
+
+
+
+<style>
+    h1{
+        background-color:yellow;
+        color:red;
+    }
+</style>
+<script>
+    console.log("hiiiiiiiiiii");
+</script>

@@ -1,0 +1,21 @@
+﻿@model EmpDetailsWithTempColrBrcnahsMsgViewModel
+
+@* @using WebAppAssiut.ViewModels
+@model EmpDetailsWithTempColrBrcnahsMsgViewModel *@
+
+@* @model WebAppAssiut.ViewModels.EmpDetailsWithTempColrBrcnahsMsgViewModel *@
+
+@{
+    ViewData["Title"] = "DetailsVM";
+}
+
+<h1>DetailsVM</h1>
+<h2 style="color:@Model.Color;">
+    @Model.EmpName
+</h2>
+<select class="form-control">
+    @foreach (var item in Model.Branches)
+    {
+        <option>@item</option>
+    }
+</select>
