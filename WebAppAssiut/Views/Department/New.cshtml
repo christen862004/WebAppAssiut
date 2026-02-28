@@ -1,0 +1,22 @@
+﻿@model Department 
+@{
+    ViewData["Title"] = "New";
+}
+
+<h1>New</h1>
+<!--/Department/SaveNew?Name=&ManagerName=-->
+<form method="post" action="/Department/SaveNew">
+    <div>
+        <label>Dept Name</label>
+        <input type="text" id="Name" name="Name" class="form form-control" value="@Model?.Name" />
+    </div>
+    <div>
+        <label>Manager Name</label>
+        <input type="text" id="ManagerName" name="ManagerName" class="form form-control" value="@Model?.ManagerName"/>
+    </div>
+    <input type="submit" value="Create" class="btn btn-primary" />
+
+</form>
+
+<br />
+<a href="/Department/Index">Back To List</a>
