@@ -8,8 +8,17 @@
 <form method="post" action="/Employee/SaveEdit/@Model.Id">
   @*   <input type="hidden" name="id" value="@Model.Id" /> *@
     <div>
-        <label>Name</label>
+        <!--Pure HTML-->
+        <!--<label>Name</label>
         <input type="text" id="EmpName" name="EmpName" value="@Model.EmpName" class="form form-control" />
+        -->
+        <!--Pure C# Using HTML Helper-->
+        @* @Html.LabelFor(e=>e.EmpName) *@
+        @* @Html.TextBoxFor(e => e.EmpName, new { style = "color:red",@class="form form-control"}) *@
+        @* @Html.EditorFor(e=>e.EmpName) *@
+        <label asp-for="EmpName"></label> 
+        <input class="form form-control" asp-for="EmpName"/>
+
     </div>
     <div>
         <label>Salary</label>
@@ -41,5 +50,21 @@
 </form>
 
 <br />
-<a href="/Employee/Index">Back to List</a>
+
+<a href="Employee/Index">Back to List</a> - - 
+@Html.ActionLink("Back To List","Index","Employee") - - 
+<a asp-action="Index" asp-controller="Employee">Bac To List</a>
+
+
+
+
+<hr />
+<a href="/Employee/Details/@Model.Id?name=@Model.EmpName">DEtails</a>
+
+<a asp-action="Details" asp-controller="Employee"
+asp-route-id="@Model.Id" asp-route-name="@Model.EmpName">Details</a>
+
+
+@Html.ActionLink("Emp Details","Details","Employee"
+,new {id=Model.Id,name=Model.EmpName},new {@class="btn btn-success"})
 

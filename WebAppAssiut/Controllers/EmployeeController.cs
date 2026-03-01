@@ -14,6 +14,29 @@
             return View("Index",EmpList);
         }
 
+
+        #region New
+        [HttpGet]
+        public IActionResult New()
+        {
+            ViewData["DeptList"] = context.Departments.ToList();
+            return View("New");
+        }
+        //????????????????
+        [HttpPost]//req .method=Post
+        [ValidateAntiForgeryToken]//orm[_fvdsdjfd]
+        public IActionResult SaveNew(Employee empFromReq)
+        {
+            if(empFromReq.Name != null && empFromReq.Salary>8000) {
+                context.Employees.Add(empFromReq);
+                context.SaveChanges();
+                return RedirectToAction("Index", "Employee");
+            }
+            ViewData["DeptList"] = context.Departments.ToList();
+            return View("New",empFromReq);
+        }
+        #endregion
+
         #region Edit
         [HttpGet]
         public IActionResult Edit(int id)
@@ -60,8 +83,8 @@
         #endregion
 
         #region details
-        //Employee/Details/100
-        public IActionResult Details (int id)
+        //Employee/Details/100?name=ahmed
+        public IActionResult Details (int id,string name)
         {
             //Extar infom sen from back to front
             string msg = "heelo";
