@@ -8,12 +8,19 @@
             
             
         }
+        
         public IActionResult Index()
         {
             List<Employee> EmpList= context.Employees.ToList();
             return View("Index",EmpList);
         }
-
+        ////Get /Employee/CheckSalary?Salary=val
+        public IActionResult CheckSalary(int Salary,string Name)
+        {
+            if (Salary > 8000)
+                return Json(true);
+            return Json(false);
+        }
 
         #region New
         [HttpGet]
@@ -27,10 +34,19 @@
         [ValidateAntiForgeryToken]//orm[_fvdsdjfd]
         public IActionResult SaveNew(Employee empFromReq)
         {
-            if(empFromReq.Name != null && empFromReq.Salary>8000) {
-                context.Employees.Add(empFromReq);
-                context.SaveChanges();
-                return RedirectToAction("Index", "Employee");
+            // if(empFromReq.Name != null && empFromReq.Salary>8000) {
+            if (ModelState.IsValid == true)
+            {
+                try
+                {
+                    context.Employees.Add(empFromReq);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Employee");
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("error",ex.InnerException.Message);
+                }
             }
             ViewData["DeptList"] = context.Departments.ToList();
             return View("New",empFromReq);

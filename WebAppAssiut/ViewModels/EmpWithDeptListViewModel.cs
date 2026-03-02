@@ -13,6 +13,6 @@ namespace WebAppAssiut.ViewModels
         public string? ImageUrl { get; set; }
         public int DepartmentId { get; set; }
 
-        public List<Department> DeptList { get; set; }
+        public List<Department>? DeptList { get; set; }
     }
 }
