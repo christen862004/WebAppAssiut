@@ -3,9 +3,9 @@
 	public class EmployeeRespoitory : IEmployeeRepository
 	{
 		ITIContext context;
-		public EmployeeRespoitory()
+		public EmployeeRespoitory(ITIContext _ctx)
 		{
-			context = new ITIContext();
+			context = _ctx;// new ITIContext();
 		}
 		public void Add(Employee obj)
 		{

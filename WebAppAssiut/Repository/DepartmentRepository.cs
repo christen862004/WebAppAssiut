@@ -3,9 +3,9 @@
 	public class DepartmentRepository : IDepartmentRspository
 	{
 		ITIContext context;
-		public DepartmentRepository()
+		public DepartmentRepository(ITIContext _ctx)
 		{
-			context = new ITIContext();
+			context =_ctx; // new ITIContext();
 		}
 		public void Add(Department obj)
 		{

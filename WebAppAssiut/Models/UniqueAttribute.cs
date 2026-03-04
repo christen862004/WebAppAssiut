@@ -4,9 +4,11 @@ namespace WebAppAssiut.Models
 {
     public class UniqueAttribute:ValidationAttribute
     {
-        ITIContext context = new ITIContext();
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        ITIContext context;// = new ITIContext();
+        protected override ValidationResult? IsValid
+            (object? value, ValidationContext validationContext)
         {
+            context = validationContext.GetService<ITIContext>();
             string? name = value.ToString();
             Employee? empFromReq=validationContext.ObjectInstance as Employee;
 

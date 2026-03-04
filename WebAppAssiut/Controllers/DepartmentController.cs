@@ -6,10 +6,10 @@ namespace WebAppAssiut.Controllers
     public class DepartmentController : Controller
     {
         //ITIContext context = new ITIContext();
-        DepartmentRepository departmentRepository;
-		public DepartmentController()
+        IDepartmentRspository departmentRepository;
+		public DepartmentController(IDepartmentRspository deptRepo)
 		{
-			departmentRepository = new DepartmentRepository();
+			departmentRepository = deptRepo;
 		}
 
 		public IActionResult Index()

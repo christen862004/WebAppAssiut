@@ -6,11 +6,11 @@ namespace WebAppAssiut.Models
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
+        //compatibility
+        //public ITIContext() : base()
+        //{
 
-        public ITIContext() : base()
-        {
-
-        }
+        //}
         public ITIContext(DbContextOptions<ITIContext> options) : base(options)
         {
 
