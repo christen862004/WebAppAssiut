@@ -1,17 +1,21 @@
-﻿namespace WebAppAssiut.Controllers
+﻿using WebAppAssiut.Repository;
+
+namespace WebAppAssiut.Controllers
 {
     public class EmployeeController : Controller
     {
-        ITIContext context = new ITIContext();
-        public EmployeeController()
+        //ITIContext context = new ITIContext();
+        IEmployeeRepository empRepo;//DIP
+        IDepartmentRspository deptRepo;
+        public EmployeeController(IEmployeeRepository _empRepo,IDepartmentRspository _deptRep)//DI
         {
-            
-            
+            empRepo=_empRepo;
+            deptRepo=_deptRep;
         }
         
         public IActionResult Index()
         {
-            List<Employee> EmpList= context.Employees.ToList();
+            List<Employee> EmpList= empRepo.GetAll();
             return View("Index",EmpList);
         }
         ////Get /Employee/CheckSalary?Salary=val
@@ -26,7 +30,7 @@
         [HttpGet]
         public IActionResult New()
         {
-            ViewData["DeptList"] = context.Departments.ToList();
+            ViewData["DeptList"] = deptRepo.GetAll();
             return View("New");
         }
         //????????????????
@@ -39,8 +43,9 @@
             {
                 try
                 {
-                    context.Employees.Add(empFromReq);
-                    context.SaveChanges();
+                    empRepo.Add(empFromReq);
+                   
+                    empRepo.Save();
                     return RedirectToAction("Index", "Employee");
                 }
                 catch(Exception ex)
@@ -48,7 +53,7 @@
                     ModelState.AddModelError("error",ex.InnerException.Message);
                 }
             }
-            ViewData["DeptList"] = context.Departments.ToList();
+            ViewData["DeptList"] = deptRepo.GetAll();
             return View("New",empFromReq);
         }
         #endregion
@@ -58,8 +63,8 @@
         public IActionResult Edit(int id)
         {
             //collect
-            Employee empFromDb= context.Employees.FirstOrDefault(e=>e.Id==id);
-            List<Department>DeptList=context.Departments.ToList();
+            Employee empFromDb= empRepo.GetByID(id);
+            List<Department>DeptList=deptRepo.GetAll();
             //decalre
             EmpWithDeptListViewModel empVM = new EmpWithDeptListViewModel();
             //Map
@@ -80,20 +85,21 @@
         {
             if(EmpFromReq.EmpName!=null) {
                 //old obj b
-                Employee EmpFromdb = context.Employees.FirstOrDefault(e => e.Id == EmpFromReq.Id);
+                Employee EmpFromdb = new Employee();
 
                 //mapping
-                EmpFromdb.Name= EmpFromReq.EmpName;
+                EmpFromdb.Id = EmpFromReq.Id;   
+				EmpFromdb.Name= EmpFromReq.EmpName;
                 EmpFromdb.ImageUrl = EmpFromReq.ImageUrl;
                 EmpFromdb.Salary = EmpFromReq.Salary;
                 EmpFromdb.DepartmentId= EmpFromReq.DepartmentId;
-
+                empRepo.Update(EmpFromdb);
                 //save chage
-                context.SaveChanges();
+                empRepo.Save();
                 return RedirectToAction("Index", "Employee");
 
             }
-            EmpFromReq.DeptList = context.Departments.ToList();//refill
+            EmpFromReq.DeptList =deptRepo.GetAll();//refill
             return View("Edit", EmpFromReq);
         }
         #endregion
@@ -113,7 +119,7 @@
             ViewBag.Color = "red";
             ViewData["Color"] = "Blue";//blue 
 
-            Employee empModel = context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empModel =empRepo.GetByID(id);
             
             return View("Details", empModel);
         }
@@ -126,7 +132,7 @@
             string msg = "heelo";
             int temp = 20;
             List<string> branches = new List<string>() { "Assiut", "Alex", "Menia" };
-            Employee empModel = context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empModel =empRepo.GetByID(id);
 
             //Mapp source =>Destination (VM)
             //declare View Modedl

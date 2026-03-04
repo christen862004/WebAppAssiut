@@ -1,13 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebAppAssiut.Repository;
 
 namespace WebAppAssiut.Controllers
 {
     public class DepartmentController : Controller
     {
-        ITIContext context = new ITIContext();
-        public IActionResult Index()
+        //ITIContext context = new ITIContext();
+        DepartmentRepository departmentRepository;
+		public DepartmentController()
+		{
+			departmentRepository = new DepartmentRepository();
+		}
+
+		public IActionResult Index()
         {
-            List<Department> DeptList = context.Departments.ToList();
+            List<Department> DeptList = departmentRepository.GetAll() ;
             return View("Index",DeptList);
         }
 
@@ -24,8 +31,8 @@ namespace WebAppAssiut.Controllers
             //if (Request.Method == "POST") { }
             if (deptFromReq.Name != null)
             {
-                context.Departments.Add(deptFromReq);
-                context.SaveChanges();//throw exception
+               departmentRepository.Add(deptFromReq);
+                departmentRepository.Save();//throw exception
                 //DRY
                 return RedirectToAction("Index", "Department");
             }
