@@ -1,3 +1,4 @@
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using WebAppAssiut.Repository;
 
@@ -17,6 +18,11 @@ namespace WebAppAssiut
             builder.Services.AddDbContext<ITIContext>(optionsBuilder => { 
                 optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
 
+            });
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
             //custom srevise  need to register
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRespoitory>();
@@ -50,11 +56,21 @@ namespace WebAppAssiut
             }
             app.UseStaticFiles();//Handel Re ==>WWroote
 
-            app.UseRouting();
+            app.UseRouting();//Employee/inex  Secutry Mapping
+            
+            app.UseSession();
 
             app.UseAuthorization();
+            //naimg Convetion route
+            //app.MapControllerRoute("Route1", "r1/{age:int:range(20,25)}/{name?}", new { controller="Route",action="M1"});
+            //app.MapControllerRoute("Route1", "r1", new { controller="Route",action="M1"});
+            //app.MapControllerRoute("Route2", "r2", new { controller = "Route", action = "M2" });
+            //app.MapControllerRoute("Route1", "r/{action}", new { controller="Route",action="M1"});
+            //app.MapControllerRoute("Route2", "e/{action}", new { controller = "Employee", action = "Index" });
+           // app.MapControllerRoute(name:"Route1", pattern:"{controller}/{action}", new { controller = "Route", action = "M1" });
 
-            app.MapControllerRoute(
+
+            app.MapControllerRoute( //Staff ddeclare ,execute 
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             #endregion
