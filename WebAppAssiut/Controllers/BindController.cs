@@ -1,20 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebAppAssiut.Filtters;
 
 namespace WebAppAssiut.Controllers
 {
+    // [ErrorHandel]
     public class BindController : Controller
     {
         /*public non static -- no ovverload*/
         //Get Bind/m1
-        [HttpGet]
+        //[HttpGet]
+        [ErrorHandel]
+        
         public IActionResult m1()
         {
+            ApplicationUser user;
+            
+            throw new Exception("MEtho1 throw exception");
             return Content("M1");
         }
-        [HttpPost]
+        //[HttpPost]
+
         //post Bind/m1
-        public IActionResult m1(int no)
+        public IActionResult m2(int no)
         {
+            throw new Exception("MEtho1 throw exception");
+
             return Content("M1 overloadd");
         }
         /**

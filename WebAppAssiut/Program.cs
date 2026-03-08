@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
+using WebAppAssiut.Filtters;
 using WebAppAssiut.Repository;
 
 namespace WebAppAssiut
@@ -10,10 +12,14 @@ namespace WebAppAssiut
         {
             var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container. Day7
-			//built in services not need to register
-			//built in services  need to register
-			builder.Services.AddControllersWithViews();
+            // Add services to the container. Day7
+            //built in services not need to register
+            //built in services  need to register
+            //builder.Services.AddControllersWithViews(options =>
+            //{
+            //    options.Filters.Add(new ErrorHandelAttribute());//gloabla pplication scop
+            //});
+            builder.Services.AddControllersWithViews();
             //ITIContext ,dbcontextoptions
             builder.Services.AddDbContext<ITIContext>(optionsBuilder => { 
                 optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
@@ -24,6 +30,14 @@ namespace WebAppAssiut
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+                options =>
+                {
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
+                }).AddEntityFrameworkStores<ITIContext>();
             //custom srevise  need to register
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRespoitory>();
             builder.Services.AddScoped<IDepartmentRspository, DepartmentRepository>();

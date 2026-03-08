@@ -1,10 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
+using System.Security.Claims;
 
 namespace WebAppAssiut.Controllers
 {
     public class StateController : Controller
     {
+
+        public IActionResult Welcome()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                //User.IsInRole("Trainee")
+
+                Claim idClaim= User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                Claim addClaim = User.Claims.FirstOrDefault(c => c.Type == "Address");
+
+                return Content($"Welcome {User.Identity.Name} with id={idClaim.Value} \n {addClaim.Value}");
+            }
+            return Content("Welcome Gust");
+        }
         public IActionResult SetSession(int age,string name)
         {
             //logic

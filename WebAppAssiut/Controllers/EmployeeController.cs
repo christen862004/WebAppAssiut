@@ -1,4 +1,5 @@
-﻿using WebAppAssiut.Repository;
+﻿using Microsoft.AspNetCore.Authorization;
+using WebAppAssiut.Repository;
 
 namespace WebAppAssiut.Controllers
 {
@@ -12,7 +13,7 @@ namespace WebAppAssiut.Controllers
             empRepo=_empRepo;
             deptRepo=_deptRep;
         }
-        
+        [Authorize]
         public IActionResult Index()
         {
             List<Employee> EmpList= empRepo.GetAll();

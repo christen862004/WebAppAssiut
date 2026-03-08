@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebAppAssiut.Repository;
 
 namespace WebAppAssiut.Controllers
@@ -11,7 +12,7 @@ namespace WebAppAssiut.Controllers
 		{
 			departmentRepository = deptRepo;
 		}
-
+        [Authorize(Roles = "Admin")]//with role Amin
 		public IActionResult Index()
         {
             List<Department> DeptList = departmentRepository.GetAll() ;
